@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .active{
+            background-color: lightskyblue;
+        }
+        .text-danger{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <p>{{message}}</p>
+</div>
+<div id="app-model">
+    <p>{{message}}</p>
+    <input type="text" v-model="message"/>
+</div>
+<div id="app-if">
+    <p v-if="seen">你可以看见我</p>
+</div>
+<div id="app-show">
+    <p v-show="age > 25">Age: {{age}}</p>
+</div>
+<div id="app-else">
+    <p v-if="age > 18">{{name}}的年龄是{{age}}岁，已成年</p>
+    <p v-else=>{{name}}的年龄是{{age}}岁，未成年</p>
+</div>
+<div id="app-for">
+    <ul v-for="item in items">
+        <li>{{item}}</li>
+    </ul>
+</div>
+<div id="app-bind">
+    <img :src="img_url" alt=""/>
+</div>
+<div id="app-on">
+    <p>{{message}}</p>
+    <button @click="setMessage">Set Message</button>
+</div>
+<div id="app-method">
+    <button @click="click">click me</button>
+</div>
+<div id="app-watch">
+    <p>First Name: <input type="text" v-model="firstname"/></p>
+    <p>Last Name: <input type="text" v-model="lastname"/></p>
+    <p>{{fullname}}</p>
+</div>
+<div id="app-computed">
+    <p>Original message; "{{message}}"</p>
+    <p>Conputed reversed message: "{{reversedMessage}}"</p>
+</div>
+<div id="app-computed-watch">
+    <p>First Name: <input type="text" v-model="firstname"></p>
+    <p>Last Name: <input type="text" v-model="lastname"></p>
+    <p>{{fullname}}</p>
+</div>
+<div id="app-class">
+    <label :class="{activeClass, errorClass}">测试</label>
+</div>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script>
+    var app = new Vue({
+        el:'#app',
+        data: {
+            message: 'Hello word'
+        }
+    });
+    var app_model = new Vue({
+        el: '#app-model',
+        data: {
+            message:''
+        }
+    });
+    var app_if = new Vue({
+        el: '#app-if',
+        data: {
+            seen: true
+        }
+    });
+    var app_show = new Vue({
+        el: '#app-show',
+        data: {
+            age: 28
+        }
+    });
+    var app_elsr = new Vue({
+        el:'#app-else',
+        data: {
+            name:'chain',
+            age:25
+        }
+    });
+    var app_for = new Vue({
+        el: '#app-for',
+        data: {
+            items:[
+                'Vue',
+                'Angular',
+                'React'
+            ]
+        }
+    });
+    var app_bind = new Vue({
+        el:'#app-bind',
+        data: {
+            img_url: 'https://cn.vuejs.org/images/logo.png'
+        }
+    });
+    var app_on = new Vue({
+        el: '#app-on',
+        data: {
+            message: ''
+        },
+        methods: {
+            setMessage: function () {
+                this.message="hello world";
+            }
+        }
+    });
+    var app_method = new Vue({
+        el: '#app-method',
+        methods: {
+            click: function () {
+                alert(this.getMessage())
+            },
+            getMessage: function () {
+                return 'hello chance'
+            }
+        }
+    });
+    var app_watch = new Vue ({
+        el: '#app-watch',
+        data: {
+            firstname: '',
+            lastname:'',
+            fullname:''
+        },
+        watch: {
+            firstname:function (newVal, oldVal) {
+                this.fullname = newVal + '' + this.lastname;
+            },
+            lastname:function(newVal, oldVal) {
+                this.fullname = this.firstname + "" +newVal;
+            }
+        }
+    });
+    var app_computed = new Vue ({
+        el: '#app-computed',
+        data: {
+            message: "hello chace"
+        },
+        computed : {
+            reversedMessage: function () {
+                return this.message.split('').reverse().join('')
+            }
+        }
+    });
+    var app_computed_watch = new Vue({
+        el: '#app-computed-watch',
+        data:{
+            firstname:'',
+            lastname:''
+        },
+        computed: {
+            fullname : function () {
+                return this.firstname + ' ' + this.lastname
+            }
+        }
+    });
+    var app_class = new Vue({
+        el:'#app-class',
+        data:{
+            activeClass: 'active',
+            errorClass: 'text-danger'
+//            classObj:{
+//                activeClass: true,
+//                'text-danger' : true
+//            },
+//            isActive:true,
+//            hasError: false
+        }
+    })
+</script>
+</body>
+</html>
